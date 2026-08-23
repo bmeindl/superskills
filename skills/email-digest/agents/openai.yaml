@@ -1,0 +1,4 @@
+interface:
+  display_name: "Email Digest"
+  short_description: "Turn recent mail into a useful recurring digest"
+  default_prompt: "Use $email-digest to set up and test an email digest from my recent mail."

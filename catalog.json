@@ -11,13 +11,13 @@
       "external_effects": false
     },
     {
-      "slug": "mail-triage",
-      "label": "Mail Triage",
-      "description": "Design safe, bounded email workflows.",
-      "path": "skills/mail-triage/SKILL.md",
+      "slug": "email-digest",
+      "label": "Email Digest",
+      "description": "Turn recent mail into a useful recurring digest.",
+      "path": "skills/email-digest/SKILL.md",
       "version": "0.1.0",
-      "capabilities": ["optional-email-connector"],
-      "external_effects": true
+      "capabilities": ["email-access"],
+      "external_effects": false
     },
     {
       "slug": "workspace-hygiene",
