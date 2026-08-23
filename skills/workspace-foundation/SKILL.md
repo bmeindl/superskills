@@ -1,6 +1,6 @@
 ---
 name: workspace-foundation
-description: Assess, create, or repair a portable file-based agent workspace with a clear root, path boundaries, durable context index, scratch inbox, maintenance loop, and documented state stores. Use when starting a new Superboard workspace, when an agent is operating from the wrong folder, when context is scattered or opaque, or when the user wants to switch between Claude, Codex, or another agent without losing working knowledge.
+description: Assess, create, or repair a portable file-based agent workspace with a clear root, durable context, useful agent capabilities, and a maintenance loop. Use when starting a Superboard workspace, choosing foundational skills, tools, or MCPs, operating from the wrong folder, repairing scattered context, or preparing to switch between Claude, Codex, or another agent without losing working knowledge.
 ---
 
 # Workspace foundation
@@ -40,11 +40,19 @@ Fill gaps rather than rebuilding. A blank workspace usually needs only:
 
 Explain every file and show the proposed content before writing. Keep the first version short enough that the user can read it in one sitting.
 
-## 4. Add a maintenance loop
+## 4. Recommend a useful capability baseline
+
+Inspect the skills, tools, and MCPs already available, then recommend two to four capabilities that match the user's real work. Prefer capabilities over specific products so the workspace can use the best implementation already present.
+
+Recommend browser automation as a baseline for most knowledge-work or product workspaces: it lets the agent operate web apps, inspect rendered interfaces, and verify flows instead of reasoning from code alone. Use Playwright, a Chromium-based agent browser, or the equivalent already available.
+
+Other common candidates are web research, Git hosting, documents/tasks, email/calendar, and transcript or media intake. Recommend only what has an immediate use case; install or connect the chosen option with the user instead of producing a catalogue dump.
+
+## 5. Add a maintenance loop
 
 Define one light, reversible check: inspect loose files, stale indexes, oversized scratch, broken links, and untracked secrets. Prefer moving to a review/archive area over deletion. Do not schedule automation until the manual pass has proved useful.
 
-## 5. Verify and hand off
+## 6. Verify and hand off
 
 After approved writes:
 
@@ -53,4 +61,4 @@ After approved writes:
 3. ask it to locate one known fact and one path boundary;
 4. report which state remains outside the workspace and what that means for portability.
 
-Leave the user with one short map: root, durable files, optional skills, runtime-only data, and the next maintenance check.
+Leave the user with one short map: root, durable files, chosen capabilities, optional skills, runtime-only data, and the next maintenance check.

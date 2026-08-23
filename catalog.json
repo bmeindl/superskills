@@ -4,10 +4,10 @@
     {
       "slug": "workspace-foundation",
       "label": "Workspace Foundation",
-      "description": "Build a portable, inspectable agent workspace.",
+      "description": "Build a portable workspace with useful agent capabilities.",
       "path": "skills/workspace-foundation/SKILL.md",
       "version": "0.1.0",
-      "capabilities": ["local-files"],
+      "capabilities": ["local-files", "capability-discovery"],
       "external_effects": false
     },
     {

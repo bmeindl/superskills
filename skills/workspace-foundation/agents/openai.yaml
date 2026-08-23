@@ -1,4 +1,4 @@
 interface:
   display_name: "Workspace Foundation"
-  short_description: "Build a portable, inspectable agent workspace"
+  short_description: "Build a portable workspace with the right agent capabilities"
   default_prompt: "Use $workspace-foundation to assess and shape this workspace."

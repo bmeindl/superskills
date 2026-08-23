@@ -8,7 +8,7 @@ This repository is deliberately separate from Superboard. Nothing is installed a
 
 | Skill | Use it for |
 | --- | --- |
-| `workspace-foundation` | Establish a portable workspace root, context map, boundaries, and maintenance loop |
+| `workspace-foundation` | Establish a portable workspace and recommend useful skills, tools, and MCPs |
 | `email-digest` | Turn recent mail into a useful daily or weekly digest |
 | `workspace-hygiene` | Clean and repair a workspace in reversible stages |
 | `workspace-learning` | Turn real corrections and outcomes into a small set of durable rules |
