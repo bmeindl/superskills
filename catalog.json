@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "skills": [
+    {
+      "slug": "workspace-foundation",
+      "label": "Workspace Foundation",
+      "description": "Build a portable, inspectable agent workspace.",
+      "path": "skills/workspace-foundation/SKILL.md",
+      "version": "0.1.0",
+      "capabilities": ["local-files"],
+      "external_effects": false
+    },
+    {
+      "slug": "mail-triage",
+      "label": "Mail Triage",
+      "description": "Design safe, bounded email workflows.",
+      "path": "skills/mail-triage/SKILL.md",
+      "version": "0.1.0",
+      "capabilities": ["optional-email-connector"],
+      "external_effects": true
+    },
+    {
+      "slug": "workspace-hygiene",
+      "label": "Workspace Hygiene",
+      "description": "Keep an agent workspace tidy and trustworthy.",
+      "path": "skills/workspace-hygiene/SKILL.md",
+      "version": "0.1.0",
+      "capabilities": ["local-files"],
+      "external_effects": false
+    },
+    {
+      "slug": "workspace-learning",
+      "label": "Workspace Learning",
+      "description": "Turn real corrections into durable rules.",
+      "path": "skills/workspace-learning/SKILL.md",
+      "version": "0.1.0",
+      "capabilities": ["local-files"],
+      "external_effects": false
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Workspace Hygiene"
+  short_description: "Keep an agent workspace tidy and trustworthy"
+  default_prompt: "Use $workspace-hygiene to run a safe cleanup pass."

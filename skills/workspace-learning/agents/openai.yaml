@@ -1,0 +1,4 @@
+interface:
+  display_name: "Workspace Learning"
+  short_description: "Turn real corrections into durable rules"
+  default_prompt: "Use $workspace-learning to learn from recent work."

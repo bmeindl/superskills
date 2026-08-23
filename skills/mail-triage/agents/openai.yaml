@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mail Triage"
+  short_description: "Design safe, bounded email workflows"
+  default_prompt: "Use $mail-triage to design my email workflow safely."
