@@ -34,7 +34,9 @@ Two flags deserve attention before installing:
 
 ## Installing a skill
 
-There is no installer. Copy the one skill the user asked for into the workspace's own skill directory — for Claude that is `.claude/skills/<slug>/SKILL.md` — after showing what the local adaptation changes.
+There is no installer. Copy the one skill the user asked for into the workspace's own skill directory — for Claude that is `.claude/skills/<slug>/` — after showing what the local adaptation changes.
+
+**Install the whole `skills/<slug>/` folder**, not just `SKILL.md`. `catalog.json` names both: `path` is the procedure, `folder` is what to copy. Runners that read `agents/openai.yaml` then find it; runners that don't simply ignore it.
 
 **Frontmatter must stay the first thing in the file.** Runners discover a skill by parsing the leading `---` block, so a provenance comment placed above it makes the skill invisible. Record the source immediately *after* the closing `---` instead:
 

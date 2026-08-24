@@ -22,7 +22,7 @@ SCHEMA = 2
 SLUG_RE = re.compile(r"^[a-z][a-z0-9-]*$")
 VERSION_RE = re.compile(r"^\d+\.\d+\.\d+$")
 
-TEXT_FIELDS = ("label", "description", "path", "version", "reads", "writes", "notes")
+TEXT_FIELDS = ("label", "description", "path", "folder", "version", "reads", "writes", "notes")
 BOOL_FIELDS = (
     "sensitive_reads",
     "requires_authentication",
@@ -94,6 +94,8 @@ def main() -> int:
         expected_path = f"skills/{slug}/SKILL.md"
         if entry.get("path") != expected_path:
             errors.append(f"{where} path must be {expected_path}")
+        if entry.get("folder") != f"skills/{slug}/":
+            errors.append(f"{where} folder must be skills/{slug}/ — installing copies the folder")
 
         skill_file = ROOT / expected_path
         if not skill_file.is_file():

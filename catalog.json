@@ -7,8 +7,12 @@
       "label": "Workspace Foundation",
       "description": "Build a portable workspace with useful agent capabilities.",
       "path": "skills/workspace-foundation/SKILL.md",
+      "folder": "skills/workspace-foundation/",
       "version": "0.1.0",
-      "capabilities": ["local-files", "capability-discovery"],
+      "capabilities": [
+        "local-files",
+        "capability-discovery"
+      ],
       "reads": "Workspace files, agent instruction files, ignore rules, and the list of available tools/MCPs.",
       "writes": "Workspace scaffold files, after showing the proposed content and getting approval.",
       "sensitive_reads": true,
@@ -24,8 +28,12 @@
       "label": "Email Digest",
       "description": "Turn recent mail into a useful recurring digest.",
       "path": "skills/email-digest/SKILL.md",
+      "folder": "skills/email-digest/",
       "version": "0.1.0",
-      "capabilities": ["mail-read", "local-files"],
+      "capabilities": [
+        "mail-read",
+        "local-files"
+      ],
       "reads": "The contents of a mailbox the user has already connected, over that account's existing access.",
       "writes": "The digest and the user's local digest preferences.",
       "sensitive_reads": true,
@@ -41,8 +49,11 @@
       "label": "Workspace Hygiene",
       "description": "Keep an agent workspace tidy and trustworthy.",
       "path": "skills/workspace-hygiene/SKILL.md",
+      "folder": "skills/workspace-hygiene/",
       "version": "0.1.0",
-      "capabilities": ["local-files"],
+      "capabilities": [
+        "local-files"
+      ],
       "reads": "The whole workspace, including scratch notes, indexes, and instruction files.",
       "writes": "Moves, archives, and — only on explicit approval of the exact targets — deletes workspace files.",
       "sensitive_reads": true,
@@ -58,8 +69,11 @@
       "label": "Workspace Learning",
       "description": "Turn real corrections into durable rules.",
       "path": "skills/workspace-learning/SKILL.md",
+      "folder": "skills/workspace-learning/",
       "version": "0.1.0",
-      "capabilities": ["local-files"],
+      "capabilities": [
+        "local-files"
+      ],
       "reads": "Card threads, completed work, and corrections the user has authorized as learning sources.",
       "writes": "Observation notes and, after approval, rule files that shape future runs.",
       "sensitive_reads": true,
