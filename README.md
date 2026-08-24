@@ -32,6 +32,26 @@ Two flags deserve attention before installing:
 - **`email-digest`** reads personal correspondence and needs a working mail connection. It never sends mail or modifies the mailbox, and it does not set up the account for you.
 - **`workspace-hygiene`** is the only skill that can remove files. Every move is previewed, archiving beats deletion, and deletion requires approval of the exact targets.
 
+## Installing a skill
+
+There is no installer. Copy the one skill the user asked for into the workspace's own skill directory — for Claude that is `.claude/skills/<slug>/SKILL.md` — after showing what the local adaptation changes.
+
+**Frontmatter must stay the first thing in the file.** Runners discover a skill by parsing the leading `---` block, so a provenance comment placed above it makes the skill invisible. Record the source immediately *after* the closing `---` instead:
+
+```markdown
+---
+name: workspace-foundation
+description: ...
+---
+
+<!-- Installed from https://github.com/bmeindl/superskills, skills/workspace-foundation/SKILL.md,
+     version 0.1.0, commit <sha>, on <date>. Workspace-local copy; no auto-update. -->
+
+# Workspace foundation
+```
+
+Adapt the copy freely afterwards. Nothing here updates it; re-copying is a deliberate act.
+
 ## Conventions
 
 Every skill is provider-neutral and free of private workspace content: no employers, colleagues, personal paths, accounts, schedules, or learned rules from the workspace it was written next to. Skills describe capabilities ("browser automation", "mail access") rather than mandating one product, so a workspace can use whatever it already has.
