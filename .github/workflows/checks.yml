@@ -1,0 +1,15 @@
+name: checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate catalogue
+        run: python3 tools/validate_catalog.py
+      - name: Public-safety gate
+        run: python3 tools/check_public_safety.py

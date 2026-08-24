@@ -1,5 +1,6 @@
 {
-  "schema": 1,
+  "schema": 2,
+  "repository": "https://github.com/bmeindl/superskills",
   "skills": [
     {
       "slug": "workspace-foundation",
@@ -8,7 +9,15 @@
       "path": "skills/workspace-foundation/SKILL.md",
       "version": "0.1.0",
       "capabilities": ["local-files", "capability-discovery"],
-      "external_effects": false
+      "reads": "Workspace files, agent instruction files, ignore rules, and the list of available tools/MCPs.",
+      "writes": "Workspace scaffold files, after showing the proposed content and getting approval.",
+      "sensitive_reads": true,
+      "requires_authentication": false,
+      "may_prompt_authentication": true,
+      "network_access": false,
+      "external_writes": false,
+      "destructive_operations": false,
+      "notes": "Auditing a workspace can surface credential-shaped files; the skill reports them instead of reading their contents. Connecting a recommended tool or MCP may lead the user into a separate login, which is their explicit step, not this skill's."
     },
     {
       "slug": "email-digest",
@@ -16,8 +25,16 @@
       "description": "Turn recent mail into a useful recurring digest.",
       "path": "skills/email-digest/SKILL.md",
       "version": "0.1.0",
-      "capabilities": ["email-access"],
-      "external_effects": false
+      "capabilities": ["mail-read", "local-files"],
+      "reads": "The contents of a mailbox the user has already connected, over that account's existing access.",
+      "writes": "The digest and the user's local digest preferences.",
+      "sensitive_reads": true,
+      "requires_authentication": true,
+      "may_prompt_authentication": true,
+      "network_access": true,
+      "external_writes": false,
+      "destructive_operations": false,
+      "notes": "Reading mail is a sensitive read of personal correspondence and needs a working mail connection. The skill neither sends mail nor modifies the mailbox; account setup stays with the user."
     },
     {
       "slug": "workspace-hygiene",
@@ -26,7 +43,15 @@
       "path": "skills/workspace-hygiene/SKILL.md",
       "version": "0.1.0",
       "capabilities": ["local-files"],
-      "external_effects": false
+      "reads": "The whole workspace, including scratch notes, indexes, and instruction files.",
+      "writes": "Moves, archives, and — only on explicit approval of the exact targets — deletes workspace files.",
+      "sensitive_reads": true,
+      "requires_authentication": false,
+      "may_prompt_authentication": false,
+      "network_access": false,
+      "external_writes": false,
+      "destructive_operations": true,
+      "notes": "The only skill here that can remove user files. Every move or deletion is previewed, archiving is preferred over deletion, and deletion requires approval of the exact targets."
     },
     {
       "slug": "workspace-learning",
@@ -35,7 +60,15 @@
       "path": "skills/workspace-learning/SKILL.md",
       "version": "0.1.0",
       "capabilities": ["local-files"],
-      "external_effects": false
+      "reads": "Card threads, completed work, and corrections the user has authorized as learning sources.",
+      "writes": "Observation notes and, after approval, rule files that shape future runs.",
+      "sensitive_reads": true,
+      "requires_authentication": false,
+      "may_prompt_authentication": false,
+      "network_access": false,
+      "external_writes": false,
+      "destructive_operations": false,
+      "notes": "Work history is sensitive content, and promoted rules change how future agents behave, so promotion is always the user's decision."
     }
   ]
 }

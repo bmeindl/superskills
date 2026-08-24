@@ -1,18 +1,60 @@
 # Superskills
 
-Optional, public-safe procedures for agent workspaces and Superboard.
+Optional, public-safe procedures for agent workspaces and [Superboard](https://github.com/bmeindl/superboard).
 
 This repository is deliberately separate from Superboard. Nothing is installed automatically. A user or agent reads one named skill, previews the local adaptation, and copies it into the workspace's skill directory only after approval. The installed copy belongs to that workspace and may diverge; there is no automatic update mechanism.
 
+## Get the catalogue
+
+Check it out **inside** the workspace, as a sibling of the board files:
+
+```sh
+git clone https://github.com/bmeindl/superskills.git superskills
+```
+
+Superboard's setup cards then reference `superskills/skills/<slug>/SKILL.md`. Absence is a normal offline state: each card carries enough fallback guidance to continue without the catalogue, so cloning is genuinely optional.
+
+Add `superskills/` to the workspace's `.gitignore` if the workspace itself is a git repository — the catalogue is an external checkout, not workspace content.
+
 ## Catalogue
 
-| Skill | Use it for |
-| --- | --- |
-| `workspace-foundation` | Establish a portable workspace and recommend useful skills, tools, and MCPs |
-| `email-digest` | Turn recent mail into a useful daily or weekly digest |
-| `workspace-hygiene` | Clean and repair a workspace in reversible stages |
-| `workspace-learning` | Turn real corrections and outcomes into a small set of durable rules |
+| Skill | Use it for | Reads | Authentication |
+| --- | --- | --- | --- |
+| `workspace-foundation` | Establish a portable workspace and recommend useful skills, tools, and MCPs | Workspace files and available capabilities | None; connecting a recommended tool may lead the user into their own login |
+| `email-digest` | Turn recent mail into a useful daily or weekly digest | Mailbox contents | Requires a mail account the user has already connected |
+| `workspace-hygiene` | Clean and repair a workspace in reversible stages | The whole workspace | None |
+| `workspace-learning` | Turn real corrections and outcomes into a small set of durable rules | Authorized work history and card threads | None |
 
-For Superboard onboarding, check out this repository as `superskills/` inside the workspace. Setup cards then reference `superskills/skills/<slug>/SKILL.md`. Absence is a normal offline state: each card carries enough fallback guidance to continue.
+`catalog.json` carries the same information in machine-readable form, plus per-skill flags for sensitive reads, network access, external writes, and destructive operations. It is discovery metadata only — the `SKILL.md` file is the procedure. There is no installer, marketplace, dependency resolver, or update daemon.
 
-Every skill is provider-neutral and free of private workspace content.
+Two flags deserve attention before installing:
+
+- **`email-digest`** reads personal correspondence and needs a working mail connection. It never sends mail or modifies the mailbox, and it does not set up the account for you.
+- **`workspace-hygiene`** is the only skill that can remove files. Every move is previewed, archiving beats deletion, and deletion requires approval of the exact targets.
+
+## Conventions
+
+Every skill is provider-neutral and free of private workspace content: no employers, colleagues, personal paths, accounts, schedules, or learned rules from the workspace it was written next to. Skills describe capabilities ("browser automation", "mail access") rather than mandating one product, so a workspace can use whatever it already has.
+
+A skill is one folder:
+
+```text
+skills/<slug>/
+├── SKILL.md            frontmatter (name, description) + the procedure
+└── agents/openai.yaml  optional display metadata for runners that read it
+```
+
+## Checks
+
+Both checks are dependency-free and run offline:
+
+```sh
+python3 tools/validate_catalog.py      # catalogue and skill files agree
+python3 tools/check_public_safety.py   # no private content in tracked files
+```
+
+The safety gate is a tripwire for absent-minded commits — a copied home path, an employer's name, a token in the buffer — not a proof of safety. Read the diff too. Both run in CI on every push and pull request.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
