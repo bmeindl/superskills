@@ -1,5 +1,5 @@
 {
-  "schema": 2,
+  "schema": 3,
   "repository": "https://github.com/bmeindl/superskills",
   "skills": [
     {
@@ -21,7 +21,8 @@
       "network_access": false,
       "external_writes": false,
       "destructive_operations": false,
-      "notes": "Auditing a workspace can surface credential-shaped files; the skill reports them instead of reading their contents. Connecting a recommended tool or MCP may lead the user into a separate login, which is their explicit step, not this skill's."
+      "notes": "Auditing a workspace can surface credential-shaped files; the skill reports them instead of reading their contents. Connecting a recommended tool or MCP may lead the user into a separate login, which is their explicit step, not this skill's.",
+      "requires": []
     },
     {
       "slug": "email-digest",
@@ -42,7 +43,113 @@
       "network_access": true,
       "external_writes": false,
       "destructive_operations": false,
-      "notes": "Reading mail is a sensitive read of personal correspondence and needs a working mail connection. The skill neither sends mail nor modifies the mailbox; account setup stays with the user."
+      "notes": "Reading mail is a sensitive read of personal correspondence and needs a working mail connection. The skill neither sends mail nor modifies the mailbox; account setup stays with the user.",
+      "setup": "skills/email-digest/SETUP.md",
+      "requires": [
+        {
+          "capability": "mail-read",
+          "what": "Read access to a mailbox through any mail tool, connector, or CLI the workspace already has.",
+          "why": "The digest is built from real messages; there is no offline mode and no account setup inside the skill.",
+          "verify": "Ask the agent to list the senders of yesterday's mail. If it cannot, the connection is missing, not the skill."
+        },
+        {
+          "capability": "digest-destination",
+          "what": "A file, card, or chat surface where the digest is written.",
+          "why": "A digest nobody reads on schedule decays into noise; the destination is part of the setup, not an afterthought.",
+          "verify": "Run one digest and confirm it appears where you actually look."
+        }
+      ]
+    },
+    {
+      "slug": "mail-triage",
+      "label": "Mail Triage",
+      "description": "Work a mailbox down in short rounds of real decisions.",
+      "path": "skills/mail-triage/SKILL.md",
+      "folder": "skills/mail-triage/",
+      "setup": "skills/mail-triage/SETUP.md",
+      "version": "0.1.0",
+      "capabilities": [
+        "mail-read",
+        "mail-modify",
+        "local-files"
+      ],
+      "reads": "The contents of a mailbox the user has already connected, over that account's existing access.",
+      "writes": "Moves messages between folders inside that mailbox, and a growing local rules file that records what may happen without asking.",
+      "sensitive_reads": true,
+      "requires_authentication": true,
+      "may_prompt_authentication": true,
+      "network_access": true,
+      "external_writes": false,
+      "destructive_operations": false,
+      "requires": [
+        {
+          "capability": "mail-read-and-move",
+          "what": "Mail access that can list, search, read, and move messages between folders or labels. Send permission is not required and should not be granted.",
+          "why": "Triage is an acting ritual: without move permission it degrades into a digest, which the separate email-digest skill already does better.",
+          "verify": "Have the agent move one harmless message to a test folder and back before you let it run a round."
+        },
+        {
+          "capability": "soft-trash-folder",
+          "what": "An ordinary folder inside the mailbox that receives anything the agent believes is junk — not the provider's trash or spam.",
+          "why": "Nothing in this method is irreversible. Provider trash auto-expires, so a mistake found a month later is unrecoverable.",
+          "verify": "After the first round, open that folder: everything cleared silently should be sitting there."
+        },
+        {
+          "capability": "rules-file",
+          "what": "A writable rules file next to the installed skill, started empty.",
+          "why": "It is the only thing that licenses acting without asking, and it is how the round gets smarter. A round that leaves it unchanged taught the skill nothing.",
+          "verify": "Answer one round's cards, let the next round execute them, then confirm the file changed."
+        },
+        {
+          "capability": "decision-surface",
+          "what": "Any surface that can show a small set of cards and take one line of answer per item.",
+          "why": "The round is sized to the user's attention, not to the mail count; the cards are where that budget is spent.",
+          "verify": "Confirm each card carries a stable handle (folder plus message id), otherwise the next round cannot execute your answers."
+        }
+      ],
+      "notes": "Acts on personal correspondence: it moves mail, so it needs modify permission on a live account. It never deletes — junk goes to a soft-trash folder inside the same mailbox — and it never sends. Autonomy grows only by the user's approval, and every silent round must show a sample of what it handled."
+    },
+    {
+      "slug": "transcript-intake",
+      "label": "Transcript Intake",
+      "description": "Turn a meeting recording or transcript into the right durable note.",
+      "path": "skills/transcript-intake/SKILL.md",
+      "folder": "skills/transcript-intake/",
+      "setup": "skills/transcript-intake/SETUP.md",
+      "version": "0.1.0",
+      "capabilities": [
+        "transcript-read",
+        "local-files"
+      ],
+      "reads": "Meeting recordings and transcripts the user hands over, plus existing notes and the task list, to find the right destination and avoid duplicates.",
+      "writes": "One extracted note in the workspace's own notes structure, and action items as proposals the user still has to accept.",
+      "sensitive_reads": true,
+      "requires_authentication": false,
+      "may_prompt_authentication": true,
+      "network_access": false,
+      "external_writes": false,
+      "destructive_operations": false,
+      "requires": [
+        {
+          "capability": "transcript-source",
+          "what": "At least one source of meeting transcripts: a local recorder, a notetaker service with an API or connector, or a meeting platform's transcript export.",
+          "why": "The skill's first step checks sources against each other, because one source alone routinely reports meetings as unrecorded. With a single source that step degrades to a no-op — it still works, it just checks less.",
+          "verify": "Ask the agent to list the meetings it can see for last week and name the source of each."
+        },
+        {
+          "capability": "notes-destination",
+          "what": "A notes or knowledge structure the agent can read and append to.",
+          "why": "Routing to an existing document is the default; without read access the skill can only create new files and the notes fragment.",
+          "verify": "Ask it to name the document a given topic would be appended to before it writes anything."
+        },
+        {
+          "capability": "action-staging",
+          "what": "Somewhere that keeps proposed items separate from committed ones, with already-decided items still visible.",
+          "why": "Action items from transcripts are proposals, and the skill deduplicates against past decisions before proposing. Without this it either floods the task list or re-raises things already rejected.",
+          "verify": "Check that a processed transcript left proposals you must accept, not entries already sitting in your task system."
+        }
+      ],
+      "notes": "Reads whole conversations, so the source material is sensitive even when the resulting note is not. Connecting a recording source may lead the user into their own login, which is their step. It writes notes and proposals, never commitments toward third parties."
     },
     {
       "slug": "workspace-hygiene",
@@ -62,7 +169,8 @@
       "network_access": false,
       "external_writes": false,
       "destructive_operations": true,
-      "notes": "The only skill here that can remove user files. Every move or deletion is previewed, archiving is preferred over deletion, and deletion requires approval of the exact targets."
+      "notes": "The only skill here that can remove user files. Every move or deletion is previewed, archiving is preferred over deletion, and deletion requires approval of the exact targets.",
+      "requires": []
     },
     {
       "slug": "workspace-learning",
@@ -82,7 +190,8 @@
       "network_access": false,
       "external_writes": false,
       "destructive_operations": false,
-      "notes": "Work history is sensitive content, and promoted rules change how future agents behave, so promotion is always the user's decision."
+      "notes": "Work history is sensitive content, and promoted rules change how future agents behave, so promotion is always the user's decision.",
+      "requires": []
     }
   ]
 }

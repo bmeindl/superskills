@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mail Triage"
+  short_description: "Work the inbox down in short rounds of real decisions"
+  default_prompt: "Use $mail-triage to run one triage round on my mailbox."

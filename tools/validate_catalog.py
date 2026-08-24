@@ -18,11 +18,12 @@ ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "catalog.json"
 SKILLS_DIR = ROOT / "skills"
 
-SCHEMA = 2
+SCHEMA = 3
 SLUG_RE = re.compile(r"^[a-z][a-z0-9-]*$")
 VERSION_RE = re.compile(r"^\d+\.\d+\.\d+$")
 
 TEXT_FIELDS = ("label", "description", "path", "folder", "version", "reads", "writes", "notes")
+REQUIRES_FIELDS = ("capability", "what", "why", "verify")
 BOOL_FIELDS = (
     "sensitive_reads",
     "requires_authentication",
@@ -113,6 +114,37 @@ def main() -> int:
             entry.get("requires_authentication") or entry.get("may_prompt_authentication")
         ):
             errors.append(f"{where} network_access without any authentication flag")
+
+        # Schema 3: prerequisites are part of the honest metadata. A skill that cannot
+        # work without something the user must supply says so here, in full sentences,
+        # and points at a SETUP.md that says how to check it actually works.
+        requires = entry.get("requires")
+        if not isinstance(requires, list):
+            errors.append(f"{where} requires must be a list (empty if the skill needs nothing)")
+            requires = []
+        for index, need in enumerate(requires):
+            at = f"{where} requires[{index}]"
+            if not isinstance(need, dict):
+                errors.append(f"{at} must be an object")
+                continue
+            if not SLUG_RE.match(str(need.get("capability", ""))):
+                errors.append(f"{at} capability must be lowercase-hyphenated")
+            for field in REQUIRES_FIELDS[1:]:
+                if len(str(need.get(field, "")).strip()) < 20:
+                    errors.append(f"{at} {field} must explain itself, not just name the thing")
+
+        setup = entry.get("setup")
+        if requires:
+            expected_setup = f"skills/{slug}/SETUP.md"
+            if setup != expected_setup:
+                errors.append(f"{where} requires prerequisites, so setup must be {expected_setup}")
+            elif not (ROOT / expected_setup).is_file():
+                errors.append(f"{where} {expected_setup} is promised but missing")
+        elif setup:
+            errors.append(f"{where} has a setup file but lists no prerequisites")
+
+        if entry.get("requires_authentication") and not requires:
+            errors.append(f"{where} claims to need authentication but names no prerequisite")
 
     on_disk = {p.name for p in SKILLS_DIR.iterdir() if p.is_dir()}
     for orphan in sorted(on_disk - seen):

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Transcript Intake"
+  short_description: "Turn a recording or transcript into the right durable note"
+  default_prompt: "Use $transcript-intake to process this meeting transcript and route what matters."
