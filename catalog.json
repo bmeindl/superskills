@@ -173,6 +173,29 @@
       "requires": []
     },
     {
+      "slug": "superboard-update",
+      "label": "Superboard Update",
+      "description": "Check the installed Superboard package and any Superskills copies for updates and install them safely.",
+      "path": "skills/superboard-update/SKILL.md",
+      "folder": "skills/superboard-update/",
+      "version": "0.1.0",
+      "capabilities": [
+        "local-files",
+        "package-management",
+        "git-write"
+      ],
+      "reads": "The installed Superboard package version, the PyPI release feed, the installed skills' recorded source and version, and this catalogue.",
+      "writes": "A git snapshot commit before any change, the upgraded package, and — only after approval when local edits collide with an upstream change — a merged skill file.",
+      "sensitive_reads": false,
+      "requires_authentication": false,
+      "may_prompt_authentication": true,
+      "network_access": true,
+      "external_writes": false,
+      "destructive_operations": false,
+      "notes": "Reinstalling the package never touches workspace files. The one non-obvious side effect is the safety-net commit: if the workspace was not yet a git repository, the skill initialises one and commits the current state before acting, without asking first. It never writes the board's own configuration, data, or thread files, and never installs a new skill or opens an issue or pull request without an explicit yes in the thread; either of those, if the user agrees, may prompt a git-hosting login the skill does not set up itself.",
+      "requires": []
+    },
+    {
       "slug": "workspace-learning",
       "label": "Workspace Learning",
       "description": "Turn real corrections into durable rules.",
