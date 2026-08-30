@@ -90,7 +90,7 @@
         },
         {
           "capability": "soft-trash-folder",
-          "what": "An ordinary folder inside the mailbox that receives anything the agent believes is junk — not the provider's trash or spam.",
+          "what": "An ordinary folder inside the mailbox that receives anything the agent believes is junk \u2014 not the provider's trash or spam.",
           "why": "Nothing in this method is irreversible. Provider trash auto-expires, so a mistake found a month later is unrecoverable.",
           "verify": "After the first round, open that folder: everything cleared silently should be sitting there."
         },
@@ -107,7 +107,7 @@
           "verify": "Confirm each card carries a stable handle (folder plus message id), otherwise the next round cannot execute your answers."
         }
       ],
-      "notes": "Acts on personal correspondence: it moves mail, so it needs modify permission on a live account. It never deletes — junk goes to a soft-trash folder inside the same mailbox — and it never sends. Autonomy grows only by the user's approval, and every silent round must show a sample of what it handled."
+      "notes": "Acts on personal correspondence: it moves mail, so it needs modify permission on a live account. It never deletes \u2014 junk goes to a soft-trash folder inside the same mailbox \u2014 and it never sends. Autonomy grows only by the user's approval, and every silent round must show a sample of what it handled."
     },
     {
       "slug": "transcript-intake",
@@ -133,7 +133,7 @@
         {
           "capability": "transcript-source",
           "what": "At least one source of meeting transcripts: a local recorder, a notetaker service with an API or connector, or a meeting platform's transcript export.",
-          "why": "The skill's first step checks sources against each other, because one source alone routinely reports meetings as unrecorded. With a single source that step degrades to a no-op — it still works, it just checks less.",
+          "why": "The skill's first step checks sources against each other, because one source alone routinely reports meetings as unrecorded. With a single source that step degrades to a no-op \u2014 it still works, it just checks less.",
           "verify": "Ask the agent to list the meetings it can see for last week and name the source of each."
         },
         {
@@ -162,7 +162,7 @@
         "local-files"
       ],
       "reads": "The whole workspace, including scratch notes, indexes, and instruction files.",
-      "writes": "Moves, archives, and — only on explicit approval of the exact targets — deletes workspace files.",
+      "writes": "Moves, archives, and \u2014 only on explicit approval of the exact targets \u2014 deletes workspace files.",
       "sensitive_reads": true,
       "requires_authentication": false,
       "may_prompt_authentication": false,
@@ -185,7 +185,7 @@
         "git-write"
       ],
       "reads": "The installed Superboard package version, the PyPI release feed, the installed skills' recorded source and version, and this catalogue.",
-      "writes": "A git snapshot commit before any change, the upgraded package, and — only after approval when local edits collide with an upstream change — a merged skill file.",
+      "writes": "A git snapshot commit before any change, the upgraded package, and \u2014 only after approval when local edits collide with an upstream change \u2014 a merged skill file.",
       "sensitive_reads": false,
       "requires_authentication": false,
       "may_prompt_authentication": true,
@@ -214,6 +214,28 @@
       "external_writes": false,
       "destructive_operations": false,
       "notes": "Work history is sensitive content, and promoted rules change how future agents behave, so promotion is always the user's decision.",
+      "requires": []
+    },
+    {
+      "slug": "off-context-subagents",
+      "label": "Off-Context Sub-Agents",
+      "description": "Delegate heavy research or bulk work to an isolated sub-agent and validate what comes back.",
+      "path": "skills/off-context-subagents/SKILL.md",
+      "folder": "skills/off-context-subagents/",
+      "version": "0.1.0",
+      "capabilities": [
+        "local-files",
+        "sub-agent-delegation"
+      ],
+      "reads": "Workspace files the user explicitly scopes for a sub-agent; the sub-agent-mcp README when setting up the server.",
+      "writes": "Only into a scratch directory the user grants the sub-agent; results are reviewed before entering the workspace.",
+      "sensitive_reads": false,
+      "requires_authentication": false,
+      "may_prompt_authentication": true,
+      "network_access": true,
+      "external_writes": false,
+      "destructive_operations": false,
+      "notes": "Procedure only. The server it describes (github.com/bmeindl/sub-agent-mcp) is a separate project and is never installed by this catalogue; sub-agents may use web search, and mapping a tier to a model provider is the user's own login step.",
       "requires": []
     }
   ]
