@@ -27,6 +27,7 @@ Add `superskills/` to the workspace's `.gitignore` if the workspace itself is a 
 | `workspace-hygiene` | Clean and repair a workspace in reversible stages | The whole workspace | None |
 | `workspace-learning` | Turn real corrections and outcomes into a small set of durable rules | Authorized work history and card threads | None |
 | `superboard-update` | Check Superboard and its installed skills for updates, and install them safely | The installed package version, the PyPI release feed, and this catalogue | None; installing may lead the user into a git-hosting login only if they ask to file an issue or a pull request |
+| `off-context-subagents` | Delegate heavy research or bulk work to an isolated sub-agent and validate the result | Files the user scopes for the sub-agent | None; the [sub-agent-mcp](https://github.com/bmeindl/sub-agent-mcp) server is a separate project, and mapping tiers to a model provider is the user's own step |
 
 `catalog.json` carries the same information in machine-readable form, plus per-skill flags for sensitive reads, network access, external writes, and destructive operations. It is discovery metadata only — the `SKILL.md` file is the procedure. There is no installer, marketplace, dependency resolver, or update daemon.
 

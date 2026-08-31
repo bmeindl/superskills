@@ -46,7 +46,7 @@ Inspect the skills, tools, and MCPs already available, then recommend two to fou
 
 Recommend browser automation as a baseline for most knowledge-work or product workspaces: it lets the agent operate web apps, inspect rendered interfaces, and verify flows instead of reasoning from code alone. Use Playwright, a Chromium-based agent browser, or the equivalent already available.
 
-Other common candidates are web research, Git hosting, documents/tasks, email/calendar, and transcript or media intake. Recommend only what has an immediate use case; install or connect the chosen option with the user instead of producing a catalogue dump.
+Other common candidates are web research, Git hosting, documents/tasks, email/calendar, and transcript or media intake. For workspaces where the agent will do heavy research or bulk reading, also consider off-context delegation — a way to run sub-agents outside the main context (see the `off-context-subagents` skill; one implementation is [sub-agent-mcp](https://github.com/bmeindl/sub-agent-mcp)) — so the board's own threads stay small. Recommend only what has an immediate use case; install or connect the chosen option with the user instead of producing a catalogue dump.
 
 ## 5. Add a maintenance loop
 
